@@ -6,7 +6,7 @@ import { expect } from '@esm-bundle/chai';
 
 document.body.innerHTML = await readFile({ path: '../../scripts/dummy.html' });
 
-const { buildBlock, decorateBlock, loadBlock } = await import('../../../scripts/scripts.js');
+const { buildBlock, decorateBlock, loadBlock } = await import('../../../scripts/lib-franklin.js');
 
 document.body.innerHTML = await readFile({ path: '../../scripts/body.html' });
 
@@ -25,10 +25,9 @@ await sleep();
 describe('Header block', () => {
   it('Hamburger shows and hides nav', async () => {
     const hamburger = document.querySelector('.header .nav-hamburger');
-    const nav = document.querySelector('.header .nav');
+    const nav = document.querySelector('.header nav');
     expect(hamburger).to.exist;
     expect(nav).to.exist;
-    expect(nav.getAttribute('aria-role')).to.equal('navigation');
     hamburger.click();
     expect(nav.getAttribute('aria-expanded')).to.equal('true');
     hamburger.click();
@@ -36,11 +35,11 @@ describe('Header block', () => {
   });
 
   it('Section title shows and hides section', async () => {
-    const section = document.querySelector('.header .nav-section');
-    const title = section.querySelector(':scope h2');
+    const sections = document.querySelector('.header .nav-sections');
+    const title = sections.querySelector(':scope li');
     title.click();
-    expect(section.getAttribute('aria-expanded')).to.equal('true');
+    expect(title.getAttribute('aria-expanded')).to.equal('true');
     title.click();
-    expect(section.getAttribute('aria-expanded')).to.equal('false');
+    expect(title.getAttribute('aria-expanded')).to.equal('false');
   });
 });
